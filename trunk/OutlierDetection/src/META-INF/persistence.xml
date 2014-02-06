@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="ARCHIVE_DB">
+		<class>edu.unl.bsm.OutlierDetection.Entity.HourlyWeather</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.NoaaHourlyWeatherData</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.NoaaHourlyWeatherDataPK</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.DailyWeatherSummary</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.OBJECTS</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.OBJECTSPK</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.PermanentHistoryData</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.PermanentHistoryDataPK</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.PastForecast</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.Prediction</class>
+
+
+	
+	
+		<properties>
+	      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	      <property name="javax.persistence.jdbc.url"
+	        value="jdbc:mysql://emcs-ws-dwh.unl.edu:3306/ARCHIVE_DB" />
+	      <property name="javax.persistence.jdbc.user" value="zhongyin" />
+	      <property name="javax.persistence.jdbc.password" value="zhongyin" />
+	
+	      <!-- EclipseLink should create the database schema automatically -->
+	      <property name="eclipselink.ddl-generation" value="drop-create-tables" />
+	      <property name="eclipselink.ddl-generation.output-mode"
+	        value="database" />
+	    </properties>
+    
+    </persistence-unit>
+    
+    <persistence-unit name="GREEDO">
+		<class>edu.unl.bsm.OutlierDetection.Entity.OBJECTS</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.OBJECTSPK</class>
+
+
+	
+	
+		<properties>
+	      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	      <property name="javax.persistence.jdbc.url"
+	        value="jdbc:mysql://emcs-ws-dwh.unl.edu:3306/GREEDO" />
+	      <property name="javax.persistence.jdbc.user" value="zhongyin" />
+	      <property name="javax.persistence.jdbc.password" value="zhongyin" />
+	
+	      <!-- EclipseLink should create the database schema automatically -->
+	      <property name="eclipselink.ddl-generation" value="drop-create-tables" />
+	      <property name="eclipselink.ddl-generation.output-mode"
+	        value="database" />
+	    </properties>
+    
+    </persistence-unit>
+    
+    <persistence-unit name="ARXBuffer">
+		<class>edu.unl.bsm.OutlierDetection.Entity.ArxModelResult</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.ArxModelRun</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.ArxModelType</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.MissData</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.Prediction</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.RobustMeanSquaredError</class>
+	
+	
+		<properties>
+	      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	      <property name="javax.persistence.jdbc.url"
+	        value="jdbc:mysql://localhost:3306/coolingload" />
+	      <property name="javax.persistence.jdbc.user" value="root" />
+	      <property name="javax.persistence.jdbc.password" value="root" />
+	
+	      <!-- EclipseLink should create the database schema automatically -->
+	      <property name="eclipselink.ddl-generation" value="drop-create-tables" />
+	      <property name="eclipselink.ddl-generation.output-mode"
+	        value="database" />
+	    </properties>
+    
+    </persistence-unit>
+</persistence>
+
