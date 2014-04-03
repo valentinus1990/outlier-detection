@@ -169,6 +169,7 @@ public class Distance {
 //		}
 		
 		List<Distance> sorted = new ArrayList<Distance>(unSorted);
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		
 		Collections.sort(sorted, new Distance().new SortByDistance());
 		
@@ -188,11 +189,10 @@ public class Distance {
 	}
 	
 	
-	public List<NKP> getKNeighborsForLatestNode(int k, int hour) throws BiffException, IOException, ParseException{
+	public List<NKP> getKNeighborsForLatestNode(int k, List<Node> nodeList) throws BiffException, IOException, ParseException{
 		int duplicate = 0;
 		int count = -1;
 		Distance ds = new Distance();
-		List<Node> nodeList = ds.getNodeList(hour);
 		
 		int latestOne = nodeList.size()-2;
 		//sorted distance for latest node.
@@ -304,7 +304,16 @@ class SortByDistance implements Comparator<Object> {
 
 	@Override
 	public int compare(Object o1, Object o2) {
-		return (int) (((Distance)o1).getDistance()*10000000 - ((Distance)o2).getDistance()*10000000);
+		int a1 = (int) (((Distance)o1).getDistance()*10000000);
+		int a2 = (int) (((Distance)o2).getDistance()*10000000);
+		if(a1 < a2){
+			return 1;
+		}
+		if(a1 == a2){
+			return 0;
+		}
+		return -1;
+		
 	}
 }
 	/**

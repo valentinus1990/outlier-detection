@@ -11,9 +11,9 @@ import java.util.Set;
 
 import jxl.read.biff.BiffException;
 
-public class Main {
+public class ConnectivityDensityLocalOutlierFactor {
 
-	public Main() {
+	public ConnectivityDensityLocalOutlierFactor() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -139,6 +139,7 @@ public class Main {
 	}
 	
 	
+	
 	/**
 	 * Connectivity and density based local outlier factor based on latest time point;
 	 * @return
@@ -146,13 +147,13 @@ public class Main {
 	 * @throws IOException 
 	 * @throws BiffException 
 	 */
-	public float getCDLOF(int k, int hour) throws BiffException, IOException, ParseException{
+	public float getCDLOF(int k, List<Node> nodeList) throws BiffException, IOException, ParseException{
 		
 		float sumNumerator  = 0;
 		float sumDenominator = 0;
 		float result = 0;
 		Distance ds = new Distance();
-		List<NKP> knb = ds.getKNeighborsForLatestNode(k, hour);
+		List<NKP> knb = ds.getKNeighborsForLatestNode(k, nodeList);
 		List<Node> sbnPath = new ArrayList<Node>();
 		Node latestOne = knb.get(0).getNode();
 		
@@ -194,6 +195,21 @@ public class Main {
 		return result;
 	}
 	
+	public float getMaxCDLOF(int hour) throws BiffException, IOException, ParseException{
+		Distance ds = new Distance();
+		float max = Float.MIN_VALUE;
+		max = Float.MIN_VALUE;
+		List<Node> nodeList = ds.getNodeList(hour);
+		System.out.println(hour + ":00:00");
+		for(int i = 20; i < 80; i++){
+			System.out.print("K: " + i + " ");
+			float temp = getCDLOF(i, nodeList);
+			max = Math.max(max, temp);
+		}
+		System.out.println("Maximum CDLOF is " + max);
+		return max;
+	}
+	
 	
 	
 	/**
@@ -203,12 +219,20 @@ public class Main {
 	 * @throws BiffException 
 	 */
 	public static void main(String[] args) throws BiffException, IOException, ParseException {
-		Main main = new Main();
-		for(int i = 20; i < 100; i++){
-			System.out.print("K: " + i + " ");
-			main.getCDLOF(i, 2);
+		long startTime = System.currentTimeMillis();
+		ConnectivityDensityLocalOutlierFactor cdlof = new ConnectivityDensityLocalOutlierFactor();
+		List<Float> list = new ArrayList<Float>();
+		for(int i = 0; i < 24; i++){
+			float maxCdlof = cdlof.getMaxCDLOF(i);
+			maxCdlof = (float) Math.log10(maxCdlof);
+			list.add(maxCdlof);
 		}
-
+		SystemAlert sa = SystemAlert.getInstance();
+		sa.reportAlert(list);
+		System.out.println("System Alert Level: " + sa.getSystemAlertLevel());
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println(totalTime/1000);
 	}
 
 }
