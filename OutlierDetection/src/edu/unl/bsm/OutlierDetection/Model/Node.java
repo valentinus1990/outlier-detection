@@ -196,7 +196,15 @@ public class Node {
 
 		@Override
 		public int compare(Object o1, Object o2) {
-			return (int) (((Node)o1).getCoolingLoad() - ((Node)o2).getCoolingLoad());
+			int a1 = (int)((Node)o1).getCoolingLoad();
+			int a2 = (int)((Node)o2).getCoolingLoad();
+			if(a1 < a2){
+				return 1;
+			}
+			if(a1 == a2){
+				return 0;
+			}
+			return -1;
 		}
 	}
 	
@@ -204,7 +212,15 @@ public class Node {
 		
 		@Override
 		public int compare(Object o1, Object o2) {
-			return (int) (((Node)o1).getTemperature() - ((Node)o2).getTemperature());
+			int a1 = (int)((Node)o1).getTemperature();
+			int a2 = (int)((Node)o2).getTemperature();
+			if(a1 < a2){
+				return 1;
+			}
+			if(a1 == a2){
+				return 0;
+			}
+			return -1;
 		}
 	}
 
