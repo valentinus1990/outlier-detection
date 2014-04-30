@@ -5,11 +5,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import jxl.read.biff.BiffException;
+import edu.unl.bsm.OutlierDetection.Dao.CoolingLoadDBDaoImpl;
 
 public class Distance {
 	
@@ -95,13 +94,13 @@ public class Distance {
 //				we.setHistdata();
 //				we.setOutlierModel(hour);
 				List<Node[]> test = wd.getOutlierModel();
-				for(Node[] el: test){
-					for(int i = 0; i < el.length; i++){
-//						if(el[i] != null)
-//						System.out.print(el[i].getNodeName()+ " "+ el[i].getTemperature()+" "+el[i].getCoolingLoad()+ " ");
-					}
-//					System.out.println();
-				}
+//				for(Node[] el: test){
+//					for(int i = 0; i < el.length; i++){
+////						if(el[i] != null)
+////						System.out.print(el[i].getNodeName()+ " "+ el[i].getTemperature()+" "+el[i].getCoolingLoad()+ " ");
+//					}
+////					System.out.println();
+//				}
 			
 				
 				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
