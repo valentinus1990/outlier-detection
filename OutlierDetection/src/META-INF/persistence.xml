@@ -11,6 +11,8 @@
 		<class>edu.unl.bsm.OutlierDetection.Entity.PermanentHistoryDataPK</class>
 		<class>edu.unl.bsm.OutlierDetection.Entity.PastForecast</class>
 		<class>edu.unl.bsm.OutlierDetection.Entity.Prediction</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.OutlierDetectionOutput</class>
+
 
 
 	
@@ -59,6 +61,7 @@
 		<class>edu.unl.bsm.OutlierDetection.Entity.MissData</class>
 		<class>edu.unl.bsm.OutlierDetection.Entity.Prediction</class>
 		<class>edu.unl.bsm.OutlierDetection.Entity.RobustMeanSquaredError</class>
+		<class>edu.unl.bsm.OutlierDetection.Entity.OutlierDetectionOutput</class>
 	
 	
 		<properties>

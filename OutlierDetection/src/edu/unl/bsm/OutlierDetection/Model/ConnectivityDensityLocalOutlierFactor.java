@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.unl.bsm.OutlierDetection.Dao.CoolingLoadDBDaoImpl;
+import edu.unl.bsm.OutlierDetection.Entity.OutlierDetectionOutput;
+
 import jxl.read.biff.BiffException;
 
 public class ConnectivityDensityLocalOutlierFactor {
@@ -210,7 +213,34 @@ public class ConnectivityDensityLocalOutlierFactor {
 		return max;
 	}
 	
+	/**
+	 * First time add 24 hours outlier detection data into database
+	 * @throws BiffException
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public void initialOutlierDectionOutput() throws BiffException, IOException, ParseException{
+		CoolingLoadDBDaoImpl cldi = CoolingLoadDBDaoImpl.getInstance();
+		cldi.getEntityManager().getTransaction().begin();
+		for(int i = 0; i < 24; i++){
+			float maxCdlof = getMaxCDLOF(i);
+			maxCdlof = (float) Math.log10(maxCdlof);
+			cldi.addOutlierDetectionOutput(i, maxCdlof);
+		}
+		cldi.getEntityManager().flush();
+		cldi.getEntityManager().getTransaction().commit();
+		
+	}
 	
+	public void update(int hour) throws BiffException, IOException, ParseException{
+		CoolingLoadDBDaoImpl cldi = CoolingLoadDBDaoImpl.getInstance();
+		float maxCdlof = getMaxCDLOF(hour);
+		maxCdlof = (float) Math.log10(maxCdlof);
+		cldi.getEntityManager().getTransaction().begin();
+		cldi.updateOutlierDetectionOutput(hour, maxCdlof);
+		cldi.getEntityManager().flush();
+		cldi.getEntityManager().getTransaction().commit();
+	}
 	
 	/**
 	 * @param args
@@ -219,13 +249,19 @@ public class ConnectivityDensityLocalOutlierFactor {
 	 * @throws BiffException 
 	 */
 	public static void main(String[] args) throws BiffException, IOException, ParseException {
+		boolean initial = true;
 		long startTime = System.currentTimeMillis();
 		ConnectivityDensityLocalOutlierFactor cdlof = new ConnectivityDensityLocalOutlierFactor();
+		CoolingLoadDBDaoImpl cldi = CoolingLoadDBDaoImpl.getInstance();
 		List<Float> list = new ArrayList<Float>();
-		for(int i = 0; i < 24; i++){
-			float maxCdlof = cdlof.getMaxCDLOF(i);
-			maxCdlof = (float) Math.log10(maxCdlof);
-			list.add(maxCdlof);
+		if(initial)
+			cdlof.initialOutlierDectionOutput();
+		else{
+			cdlof.update(12);
+		}
+		List<OutlierDetectionOutput> odopList = cldi.getOutlierDetectionOutput();
+		for(OutlierDetectionOutput el : odopList){
+			list.add(el.getOutlierDetectionMaxCDLOF());
 		}
 		SystemAlert sa = SystemAlert.getInstance();
 		sa.reportAlert(list);
@@ -233,6 +269,7 @@ public class ConnectivityDensityLocalOutlierFactor {
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		System.out.println(totalTime/1000);
+		cldi.getEntityManager().close();
 	}
 
 }

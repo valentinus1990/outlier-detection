@@ -13,6 +13,7 @@ import jxl.read.biff.BiffException;
 
 import org.joda.time.DateTime;
 
+import edu.unl.bsm.OutlierDetection.Dao.CoolingLoadDBDaoImpl;
 import edu.unl.bsm.OutlierDetection.Data.WeatherDataWeekDays;
 
 
